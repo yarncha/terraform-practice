@@ -167,7 +167,6 @@ resource "aws_route_table" "route_table_pri_c" {
   }
 }
 
-
 ### Association ###
 # resource "aws_main_route_table_association" "mainasso" {
 #   vpc_id         = aws_vpc.vpc.id
