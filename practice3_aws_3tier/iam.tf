@@ -25,7 +25,7 @@ resource "aws_iam_role_policy_attachment" "ec2_AmazonEC2RoleforSSM_bastion" {
   role       = aws_iam_role.ec2_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "ec2cAdmin_bastion" {
+resource "aws_iam_role_policy_attachment" "ec2_Admin_bastion" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
   role       = aws_iam_role.ec2_role.name
 }

@@ -23,7 +23,7 @@ resource "aws_security_group" "sg_bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.my_local_ip]
   }
 
   # outbound all로 오픈
@@ -117,11 +117,6 @@ resource "aws_instance" "ec2_bastion" {
   iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
   depends_on                  = [aws_internet_gateway.vpc_igw]
 
-  #   private_ip    = 
-  #   root_block_device {
-  #     volume_size = "8"
-  #   }
-
   tags = {
     Name = var.ec2_bastion_name
   }
@@ -140,10 +135,6 @@ resource "aws_instance" "ec2_web01" {
               #!/bin/bash
               /app/web/apache/bin/apachectl start
               EOF
-
-  #   root_block_device {
-  #     volume_size = "8"
-  #   }
 
   tags = {
     Name = var.ec2_web01_name
@@ -204,6 +195,7 @@ resource "aws_alb_target_group_attachment" "tgp_web_80_web01" {
   target_id        = aws_instance.ec2_web01.id
   port             = 80
 }
+
 # resource "aws_alb_target_group_attachment" "tgp_web_80_web02" {
 #   target_group_arn = aws_alb_target_group.tgp_web_80.arn
 #   target_id        = aws_instance.ec2_web02.id

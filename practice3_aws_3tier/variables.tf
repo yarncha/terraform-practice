@@ -143,6 +143,10 @@ variable "sg_elb_name" {
   type = string
 }
 
+variable "my_local_ip" {
+  type = string
+}
+
 variable "web_ami" {
   type = string
 }

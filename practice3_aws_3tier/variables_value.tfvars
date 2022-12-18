@@ -53,6 +53,7 @@ sg_main_name = "scg-con-ojt-main"
 sg_bastion_name = "scg-con-ojt-bastion"
 sg_web_name = "scg-con-ojt-web"
 sg_elb_name = "scg-con-ojt-elb"
+my_local_ip = "0.0.0.0/0"
 
 # ec2
 web_ami = "ami-00efb90f23aa15060"
@@ -64,19 +65,3 @@ ec2_web01_name = "ec2-con-ojt-web01"
 alb_name = "elb-con-ojt"
 tgp_http80_name = "tgp-con-ojt-http80"
 tgp_https443_name = "tgp-con-ojt-https443"
-
-# # BASIC SETTINGS - region
-# environment = "YUMINLOG"
-# projectCode = "YUMINLOG"
-
-# # VPC
-# secondary_cidr = false
-
-# bastioin_eip  = "ojt-bastion-eip"
-# ec2_role_name = "ec2-common"
-
-# key_pair             = "ojt-test"
-# common_instance_type = "t2.micro"
-
-# # ip address
-# bastion_ip = "10.10.129.28"
