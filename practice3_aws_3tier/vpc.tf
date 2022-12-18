@@ -1,106 +1,105 @@
 ### [VPC] VPC를 구성하는 코드 ###
 resource "aws_vpc" "vpc" {
-  cidr_block = "10.10.130.0/24"
+  cidr_block = var.vpc_cidr_block
 
   # DNS hostname 사용 옵션
   enable_dns_hostnames = true
-  enable_dns_support   = true
 
   tags = {
-    Name = "vpc-con-ojt"
+    Name = var.vpc_name
   }
 }
 
 ### [Subnet] Subnet 8개 구성하는 코드 ###
-# data - 데이터 소스 선언, 해당 region에서 사용할 수 있는 az를 가져옴
+# data - 데이터 소스 선언, 해당 region에서 사용할 수 있는 az를 가져온다
 data "aws_availability_zones" "available_zones_in_region" {}
 
 resource "aws_subnet" "subnet_pub_a" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.0/27"
+  cidr_block        = var.subnet_pub_a_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[0]
 
   tags = {
-    Name = "sbn-con-ojt-pub-a"
+    Name = var.subnet_pub_a_name
   }
 }
 
 resource "aws_subnet" "subnet_pub_c" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.32/27"
+  cidr_block        = var.subnet_pub_c_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[2]
 
   tags = {
-    Name = "sbn-con-ojt-pub-c"
+    Name = var.subnet_pub_c_name
   }
 }
 
 resource "aws_subnet" "subnet_ap_a" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.64/26"
+  cidr_block        = var.subnet_ap_a_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[0]
 
   tags = {
-    Name = "sbn-con-ojt-ap-pri-a"
+    Name = var.subnet_ap_a_name
   }
 }
 
 resource "aws_subnet" "subnet_ap_c" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.128/26"
+  cidr_block        = var.subnet_ap_c_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[2]
 
   tags = {
-    Name = "sbn-con-ojt-ap-pri-c"
+    Name = var.subnet_ap_c_name
   }
 }
 
 resource "aws_subnet" "subnet_db_a" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.192/28"
+  cidr_block        = var.subnet_db_a_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[0]
 
   tags = {
-    Name = "sbn-con-ojt-db-pri-a"
+    Name = var.subnet_db_a_name
   }
 }
 
 resource "aws_subnet" "subnet_db_c" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.208/28"
+  cidr_block        = var.subnet_db_c_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[2]
 
   tags = {
-    Name = "sbn-con-ojt-db-pri-c"
+    Name = var.subnet_db_c_name
   }
 }
 
 resource "aws_subnet" "subnet_attach_a" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.224/28"
+  cidr_block        = var.subnet_attach_a_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[0]
 
   tags = {
-    Name = "sbn-con-ojt-attach-pri-a"
+    Name = var.subnet_attach_a_name
   }
 }
 
 resource "aws_subnet" "subnet_attach_c" {
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = "10.10.130.240/28"
+  cidr_block        = var.subnet_attach_c_cidr_block
   availability_zone = data.aws_availability_zones.available_zones_in_region.names[2]
 
   tags = {
-    Name = "sbn-con-ojt-attach-pri-c"
+    Name = var.subnet_attach_c_name
   }
 }
 
-### [Internet Gateway] VPC에 igw연결 ###
+### [Internet Gateway] ###
 resource "aws_internet_gateway" "vpc_igw" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "igw-con-ojt"
+    Name = var.igw_name
   }
 }
 
@@ -110,16 +109,16 @@ resource "aws_eip" "nat_a" {
   depends_on = [aws_internet_gateway.vpc_igw]
 
   tags = {
-    Name = "eip-con-ojt-a"
+    Name = var.eip_a_name
   }
 }
 
-resource "aws_eip" "nat_b" {
+resource "aws_eip" "nat_c" {
   vpc        = true
   depends_on = [aws_internet_gateway.vpc_igw]
 
   tags = {
-    Name = "eip-con-ojt-b"
+    Name = var.eip_c_name
   }
 }
 
@@ -130,17 +129,17 @@ resource "aws_nat_gateway" "nat_gw_a" {
   depends_on    = [aws_internet_gateway.vpc_igw]
 
   tags = {
-    Name = "nat-con-ojt_a"
+    Name = var.nat_a_name
   }
 }
 
 resource "aws_nat_gateway" "nat_gw_c" {
-  allocation_id = aws_eip.nat_b.id
+  allocation_id = aws_eip.nat_c.id
   subnet_id     = aws_subnet.subnet_pub_c.id
   depends_on    = [aws_internet_gateway.vpc_igw]
 
   tags = {
-    Name = "nat-con-ojt_c"
+    Name = var.nat_c_name
   }
 }
 
@@ -155,7 +154,7 @@ resource "aws_default_route_table" "route_table_pub" {
   }
 
   tags = {
-    Name = "rt-con-ojt-pub"
+    Name = var.route_table_pub_name
   }
 }
 
@@ -169,7 +168,7 @@ resource "aws_route_table" "route_table_pri_a" {
   }
 
   tags = {
-    Name = "rt-con-ojt-pri-a"
+    Name = var.route_table_pri_a_name
   }
 }
 
@@ -182,7 +181,7 @@ resource "aws_route_table" "route_table_pri_c" {
   }
 
   tags = {
-    Name = "rt-con-ojt-pri-c"
+    Name = var.route_table_pri_c_name
   }
 }
 
