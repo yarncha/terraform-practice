@@ -122,7 +122,7 @@ resource "aws_instance" "ec2_bastion" {
   subnet_id                   = aws_subnet.subnet_pub_a.id
   security_groups             = [aws_security_group.sg_bastion.id]
   associate_public_ip_address = true
-  iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
+  iam_instance_profile        = var.iam_instance_profile_value
   depends_on                  = [aws_internet_gateway.vpc_igw]
 
   tags = {
@@ -137,7 +137,8 @@ resource "aws_instance" "ec2_web01" {
   subnet_id                   = aws_subnet.subnet_ap_a.id
   security_groups             = [aws_security_group.sg_web.id]
   associate_public_ip_address = false
-  iam_instance_profile        = aws_iam_instance_profile.ec2_profile.name
+  iam_instance_profile        = var.iam_instance_profile_value
+  depends_on                  = [aws_internet_gateway.vpc_igw]
 
   user_data = <<-EOF
               #!/bin/bash

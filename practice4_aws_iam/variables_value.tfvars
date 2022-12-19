@@ -1,5 +1,5 @@
 ### Common Settings ###
-aws_region = "xxxxxxx"
+aws_region = "us-east-1"
 key_pair   = "ojt-web"
 
 ### iam.tf ###
@@ -52,15 +52,15 @@ sg_main_name    = "scg-con-ojt-main"
 sg_bastion_name = "scg-con-ojt-bastion"
 sg_web_name     = "scg-con-ojt-web"
 sg_elb_name     = "scg-con-ojt-elb"
-my_local_ip     = "xxx.xxx.xxx.xxx/32"
+my_local_ip     = "203.248.117.37/32"
 
 
 # ec2
-web_ami                    = "ami-xxxxxxxxxxx"
+web_ami                    = "ami-00efb90f23aa15060"
 common_instance_type       = "t3a.small"
 ec2_bastion_name           = "ec2-con-ojt-bastion"
 ec2_web01_name             = "ec2-con-ojt-web01"
-iam_instance_profile_value = "ec2-profile-con-ojt"
+iam_instance_profile_value = "ec2-role-con-ojt"
 
 # alb
 alb_name          = "elb-con-ojt"
