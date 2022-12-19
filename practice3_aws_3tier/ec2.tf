@@ -19,7 +19,7 @@ resource "aws_security_group" "sg_bastion" {
 
   # inbound 오픈
   ingress {
-    description = "SSH from browser"
+    description = "SSH from user"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -83,7 +83,7 @@ resource "aws_security_group" "sg_elb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.my_local_ip]
   }
 
   ingress {
@@ -91,7 +91,7 @@ resource "aws_security_group" "sg_elb" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.my_local_ip]
   }
 
   egress {
@@ -133,6 +133,8 @@ resource "aws_instance" "ec2_web01" {
 
   user_data = <<-EOF
               #!/bin/bash
+              sudo su -
+              rm -rf /app/web/apache/logs/httpd.pid
               /app/web/apache/bin/apachectl start
               EOF
 
@@ -161,7 +163,7 @@ resource "aws_alb_target_group" "tgp_web_80" {
 
   health_check {
     interval            = 30
-    path                = "/health.html"
+    path                = var.health_check_path
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
@@ -179,7 +181,7 @@ resource "aws_alb_target_group" "tgp_web_443" {
 
   health_check {
     interval            = 30
-    path                = "/health.html"
+    path                = var.health_check_path
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
