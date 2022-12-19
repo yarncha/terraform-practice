@@ -54,6 +54,14 @@ resource "aws_security_group" "sg_web" {
 
   ingress {
     description = "Connection from LB"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.10.130.0/26"]
+  }
+
+  ingress {
+    description = "Connection from LB"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -198,24 +206,13 @@ resource "aws_alb_target_group_attachment" "tgp_web_80_web01" {
   port             = 80
 }
 
-# resource "aws_alb_target_group_attachment" "tgp_web_80_web02" {
-#   target_group_arn = aws_alb_target_group.tgp_web_80.arn
-#   target_id        = aws_instance.ec2_web02.id
-#   port             = 80
-# }
-
 resource "aws_alb_target_group_attachment" "tgp_web_443_web01" {
   target_group_arn = aws_alb_target_group.tgp_web_443.arn
   target_id        = aws_instance.ec2_web01.id
   port             = 443
 }
-# resource "aws_alb_target_group_attachment" "tgp_web_443_web02" {
-#   target_group_arn = aws_alb_target_group.tgp_web_443.arn
-#   target_id        = aws_instance.ec2_web02.id
-#   port             = 443
-# }
 
-# ALB ADD LISTENER RULE
+### [alb listener] ###
 resource "aws_alb_listener" "http" {
   load_balancer_arn = aws_alb.elb.arn
   port              = "80"
