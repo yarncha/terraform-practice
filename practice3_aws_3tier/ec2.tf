@@ -171,10 +171,12 @@ resource "aws_alb_target_group" "tgp_web_80" {
   vpc_id   = aws_vpc.vpc.id
 
   health_check {
-    interval            = 30
     path                = var.health_check_path
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+    timeout             = 4
+    interval            = 5
+    matcher             = "200-399"
   }
 
   tags = {
@@ -189,10 +191,12 @@ resource "aws_alb_target_group" "tgp_web_443" {
   vpc_id   = aws_vpc.vpc.id
 
   health_check {
-    interval            = 30
     path                = var.health_check_path
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+    timeout             = 4
+    interval            = 5
+    matcher             = "200-399"
   }
 
   tags = {
