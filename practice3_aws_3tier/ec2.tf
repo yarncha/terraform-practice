@@ -19,7 +19,7 @@ resource "aws_security_group" "sg_bastion" {
 
   # inbound 오픈
   ingress {
-    description = "SSH from user"
+    description = "Allow from My ip"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -87,7 +87,7 @@ resource "aws_security_group" "sg_elb" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    description = "Connection from Browser"
+    description = "Allow from My ip"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -95,7 +95,7 @@ resource "aws_security_group" "sg_elb" {
   }
 
   ingress {
-    description = "Connection from Browser"
+    description = "Allow from My ip"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
