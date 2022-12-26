@@ -1,4 +1,7 @@
 .terraform/
 */.terraform.lock.hcl
 */terraform.tfstate
+*/state/statefile.tfstate
+*/state/statefile.tfstate.backup
 *.pem
+planfile
