@@ -1,32 +1,9 @@
 ### Common Settings ###
-aws_region   = "ap-northeast-1"
-project_name = "con-ojt"
-
-### Elastic Container Registry ###
-ecr_name       = "ecr-con-ojt"
-ecr_image_scan = false
-
-### Code Commit ###
-repo_name        = "repo-con-ojt-ecs"
-default_branch   = "main"
-repo_description = "Application repo for lambda"
-
-### IAM ###
-
-
-### Code Build ###
-build_project_name          = "pjt-con-ojt-ecs"
-build_service_role          = "pjt-con-ojt-service-role"
-build_project_description   = "Code Build Project"
-build_provider              = "CODECOMMIT"
-build_env_compute_type      = "BUILD_GENERAL1_MEDIUM"
-build_image                 = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-build_type                  = "LINUX_CONTAINER"
-build_is_privileged_mode    = true
-build_credentials_type      = "CODEBUILD"
-build_artifacts_type        = "NO_ARTIFACTS"
-build_cloudwatch_log_status = "ENABLED"
-
+aws_region                 = "XX-XXXXX-XX"
+project_name               = "con-ojt"
+ecs_task_role_name         = "ecsTaskExecutionRole"
+pipeline_service_role_name = "AWSCodePipelineServiceRole-XX-XXXXX-XX-con-ojt"
+s3_name                    = "codepipeline-XX-XXXXX-XX-XXXXXXXX"
 
 ### VPC.tf ###
 # vpc
@@ -69,10 +46,80 @@ route_table_pri_c_name = "rt-con-ojt-pri-c"
 
 ### EC2.tf ###
 # sg
-sg_main_name = "scg-con-ojt-main"
-sg_elb_name  = "scg-con-ojt-elb"
+sg_main_name      = "scg-con-ojt-main"
+sg_container_name = "scg-con-ojt-container"
+sg_elb_name       = "scg-con-ojt-elb"
+my_local_ip       = "XXX.XXX.XXX.XXX/32"
 
 # alb
 alb_name          = "elb-con-ojt"
 tgp_http80_name   = "tgp-con-ojt-http80"
 health_check_path = "/index.html"
+
+
+### Code Series ###
+# Code Commit
+repo_name        = "repo-con-ojt-ecs"
+default_branch   = "master"
+repo_description = "Application repo for lambda"
+
+# Code Build
+build_project_name          = "pjt-con-ojt-ecs"
+build_service_role          = "pjt-con-ojt-service-role"
+build_project_description   = "Code Build Project"
+build_provider              = "CODECOMMIT"
+build_env_compute_type      = "BUILD_GENERAL1_MEDIUM"
+build_image                 = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+build_type                  = "LINUX_CONTAINER"
+build_is_privileged_mode    = true
+build_credentials_type      = "CODEBUILD"
+build_artifacts_type        = "NO_ARTIFACTS"
+build_cloudwatch_log_status = "ENABLED"
+
+# Code Pipeline
+pipeline_name                       = "ppl-con-ojt"
+pipeline_artifact_type              = "S3"
+pipeline_encryption_key             = "XXXXXXXXXXXXXX"
+pipeline_encryption_type            = "KMS"
+source_stage_name                   = "Source"
+source_stage_provider               = "CodeCommit"
+source_stage_provider_owner         = "AWS"
+source_stage_branch_name            = "master"
+build_stage_name                    = "Build_server"
+build_stage_provider                = "CodeBuild"
+build_stage_provider_owner          = "AWS"
+deploy_stage_name                   = "Deploy_server"
+deploy_stage_provider               = "ECS"
+deploy_stage_provider_owner         = "AWS"
+deploy_stage_configuration_filename = "imagedefinitions.json"
+
+### Elastic Container Registry ###
+ecr_name       = "ecr-con-ojt"
+ecr_image_scan = false
+
+
+### Elastic Container Service ###
+# Task Definition
+task_definition_name             = "td-con-ojt"
+task_definition_network_mode     = "awsvpc"
+task_definition_type             = "FARGATE"
+task_definition_cpu              = 256
+task_definition_memory           = 512
+task_definition_container_name   = "con-con-ojt"
+task_definition_container_cpu    = 128
+task_definition_container_memory = 128
+task_definition_port             = 80
+task_definition_operation_system = "LINUX"
+task_definition_cpu_architecture = "X86_64"
+
+# Cluster
+cluster_name = "cst-con-ojt"
+
+# ECS Service
+service_name                = "svc-con-ojt"
+service_launch_type         = "FARGATE"
+service_scheduling_strategy = "REPLICA"
+service_desired_count       = 2
+service_health_check_period = 0
+service_assign_public_ip    = false
+service_deployment          = "ECS"

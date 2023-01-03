@@ -1,3 +1,19 @@
+data "aws_iam_role" "build_role" {
+  name = var.build_service_role
+}
+
+data "aws_iam_role" "ecs_task_role" {
+  name = var.ecs_task_role_name
+}
+
+data "aws_iam_role" "pipeline_service_role" {
+  name = var.pipeline_service_role_name
+}
+
+data "aws_s3_bucket" "pipeline_s3" {
+  bucket = var.s3_name
+}
+
 # resource "aws_iam_policy" "codebuild_policy" {
 #   description = "CodeBuild Execution Policy"
 #   policy      = <<EOF
