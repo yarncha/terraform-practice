@@ -1,11 +1,13 @@
-### Common Settings ###
-aws_region                 = "XX-XXXXX-XX"
-project_name               = "con-ojt"
-ecs_task_role_name         = "ecsTaskExecutionRole"
-pipeline_service_role_name = "AWSCodePipelineServiceRole-XX-XXXXX-XX-con-ojt"
-s3_name                    = "codepipeline-XX-XXXXX-XX-XXXXXXXX"
+### main.tf ###
+aws_region = "XXXXXX"
 
-### VPC.tf ###
+### data.tf ###
+build_service_role         = "iam-role-con-ojt-codebuild-project"
+ecs_task_role_name         = "iam-role-con-ojt-ecs-task"
+pipeline_service_role_name = "iam-role-con-ojt-codepipeline"
+s3_name                    = "s3-con-ojt-pipeline"
+
+### vpc.tf ###
 # vpc
 vpc_name       = "vpc-con-ojt"
 vpc_cidr_block = "10.10.130.0/24"
@@ -54,7 +56,7 @@ my_local_ip       = "XXX.XXX.XXX.XXX/32"
 # alb
 alb_name          = "elb-con-ojt"
 tgp_http80_name   = "tgp-con-ojt-http80"
-health_check_path = "/index.html"
+health_check_path = "/"
 
 
 ### Code Series ###
@@ -65,7 +67,6 @@ repo_description = "Application repo for lambda"
 
 # Code Build
 build_project_name          = "pjt-con-ojt-ecs"
-build_service_role          = "pjt-con-ojt-service-role"
 build_project_description   = "Code Build Project"
 build_provider              = "CODECOMMIT"
 build_env_compute_type      = "BUILD_GENERAL1_MEDIUM"

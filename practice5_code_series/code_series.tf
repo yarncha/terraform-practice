@@ -26,11 +26,6 @@ resource "aws_codebuild_project" "codebuild" {
     type                        = var.build_type
     privileged_mode             = var.build_is_privileged_mode
     image_pull_credentials_type = var.build_credentials_type
-
-    # environment_variable {
-    #   name  = "REPOSITORY_URI"
-    #   value = aws_ecr_repository.image_repo.repository_url
-    # }
   }
 
   artifacts {

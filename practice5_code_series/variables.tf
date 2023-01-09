@@ -2,9 +2,6 @@
 variable "aws_region" {
   type = string
 }
-variable "project_name" {
-  type = string
-}
 variable "ecs_task_role_name" {
   type = string
 }

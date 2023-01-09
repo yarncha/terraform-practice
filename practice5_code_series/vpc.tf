@@ -11,9 +11,6 @@ resource "aws_vpc" "vpc" {
 }
 
 ### [Subnet] Subnet 8개 구성하는 코드 ###
-# data - 데이터 소스 선언, 해당 region에서 사용할 수 있는 az를 가져온다
-data "aws_availability_zones" "available_zones_in_region" {}
-
 resource "aws_subnet" "subnet_pub_a" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.subnet_pub_a_cidr_block

@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   container_definitions = jsonencode([
     {
       name      = var.task_definition_container_name
-      image     = "${aws_ecr_repository.image_repo.arn}"
+      image     = "${aws_ecr_repository.image_repo.repository_url}:latest"
       cpu       = var.task_definition_container_cpu
       memory    = var.task_definition_container_memory
       essential = true
@@ -41,16 +41,15 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 
 # ECS Service 
 resource "aws_ecs_service" "ecs_service" {
-  name                              = var.service_name
-  cluster                           = aws_ecs_cluster.ecs_cluster.id
-  launch_type                       = var.service_launch_type
-  platform_version                  = "LATEST"
-  propagate_tags                    = "SERVICE"
-  task_definition                   = aws_ecs_task_definition.ecs_task_definition.arn
-  scheduling_strategy               = var.service_scheduling_strategy
-  desired_count                     = var.service_desired_count
-  health_check_grace_period_seconds = var.service_health_check_period
-  # iam_role   = data.aws_iam_role.ecs_service_role.arn
+  name                = var.service_name
+  cluster             = aws_ecs_cluster.ecs_cluster.id
+  launch_type         = var.service_launch_type
+  platform_version    = "LATEST"
+  propagate_tags      = "SERVICE"
+  task_definition     = aws_ecs_task_definition.ecs_task_definition.arn
+  scheduling_strategy = var.service_scheduling_strategy
+  desired_count       = var.service_desired_count
+  # health_check_grace_period_seconds = var.service_health_check_period
 
   network_configuration {
     security_groups  = [aws_security_group.sg_container.id]

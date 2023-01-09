@@ -19,7 +19,7 @@ resource "aws_security_group" "sg_container" {
     protocol    = "tcp"
     cidr_blocks = ["10.10.130.0/26"]
   }
-  
+
   egress {
     from_port   = 0
     to_port     = 0
