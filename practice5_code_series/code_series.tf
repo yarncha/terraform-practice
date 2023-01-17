@@ -9,6 +9,10 @@ resource "aws_codecommit_repository" "codecommit_repository" {
   }
 }
 
+output "git_clone_url" {
+  value = aws_codecommit_repository.codecommit_repository.clone_url_http
+}
+
 ### Code Build ###
 resource "aws_codebuild_project" "codebuild" {
   name         = var.build_project_name

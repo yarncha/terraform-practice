@@ -59,6 +59,38 @@ tgp_http80_name   = "tgp-con-ojt-http80"
 health_check_path = "/"
 
 
+### Elastic Container Registry ###
+ecr_name       = "ecr-con-ojt"
+ecr_image_scan = false
+
+
+### Elastic Container Service ###
+# Task Definition
+task_definition_name             = "td-con-ojt"
+task_definition_network_mode     = "awsvpc"
+task_definition_type             = "FARGATE"
+task_definition_cpu              = 256
+task_definition_memory           = 512
+task_definition_container_name   = "con-con-ojt"
+task_definition_container_cpu    = 128
+task_definition_container_memory = 128
+task_definition_port             = 80
+task_definition_operation_system = "LINUX"
+task_definition_cpu_architecture = "X86_64"
+
+# Cluster
+cluster_name = "cst-con-ojt"
+
+# ECS Service
+service_name                = "svc-con-ojt"
+service_launch_type         = "FARGATE"
+service_scheduling_strategy = "REPLICA"
+service_desired_count       = 2
+service_health_check_period = 0
+service_assign_public_ip    = false
+service_deployment          = "ECS"
+
+
 ### Code Series ###
 # Code Commit
 repo_name        = "repo-con-ojt-ecs"
@@ -93,34 +125,3 @@ deploy_stage_name                   = "Deploy_server"
 deploy_stage_provider               = "ECS"
 deploy_stage_provider_owner         = "AWS"
 deploy_stage_configuration_filename = "imagedefinitions.json"
-
-### Elastic Container Registry ###
-ecr_name       = "ecr-con-ojt"
-ecr_image_scan = false
-
-
-### Elastic Container Service ###
-# Task Definition
-task_definition_name             = "td-con-ojt"
-task_definition_network_mode     = "awsvpc"
-task_definition_type             = "FARGATE"
-task_definition_cpu              = 256
-task_definition_memory           = 512
-task_definition_container_name   = "con-con-ojt"
-task_definition_container_cpu    = 128
-task_definition_container_memory = 128
-task_definition_port             = 80
-task_definition_operation_system = "LINUX"
-task_definition_cpu_architecture = "X86_64"
-
-# Cluster
-cluster_name = "cst-con-ojt"
-
-# ECS Service
-service_name                = "svc-con-ojt"
-service_launch_type         = "FARGATE"
-service_scheduling_strategy = "REPLICA"
-service_desired_count       = 2
-service_health_check_period = 0
-service_assign_public_ip    = false
-service_deployment          = "ECS"
