@@ -53,7 +53,7 @@ resource "aws_codepipeline" "aws_codepipeline" {
   role_arn = data.aws_iam_role.pipeline_service_role.arn
 
   artifact_store {
-    location = data.aws_s3_bucket.pipeline_s3.id
+    location = aws_s3_bucket.pipeline_bucket.id
     type     = var.pipeline_artifact_type
 
     encryption_key {
@@ -98,6 +98,24 @@ resource "aws_codepipeline" "aws_codepipeline" {
       configuration = {
         ProjectName = aws_codebuild_project.codebuild.id
       }
+    }
+  }
+
+  stage {
+    name = "Approve"
+
+    action {
+      name     = "Approval"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
+
+      # configuration { 
+      #   NotificationArn = "${var.approve_sns_arn}" 
+      #   CustomData = "$ {var.approve_comment}" 
+      #   ExternalEntityLink = "${var.approve_url}" 
+      # } 
     }
   }
 
