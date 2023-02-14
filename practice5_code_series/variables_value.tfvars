@@ -5,6 +5,8 @@ aws_region = "XXXXXX"
 build_service_role         = "iam-role-con-ojt-codebuild-project"
 ecs_task_role_name         = "iam-role-con-ojt-ecs-task"
 pipeline_service_role_name = "iam-role-con-ojt-codepipeline"
+
+### s3.tf ###
 s3_name                    = "s3-con-ojt-pipeline-XXXXXX"
 
 ### vpc.tf ###
