@@ -235,13 +235,14 @@
 #             "Effect": "Allow",
 #             "Action": [
 #                 "s3:PutObject",
+#                 "s3:GetBucketVersioning",
 #                 "s3:ListObjects",
 #                 "s3:ListBucket",
 #                 "s3:GetObjectVersion",
 #                 "s3:GetObject",
 #                 "s3:GetBucketLocation"
 #             ],
-#             "Resource": "${aws_s3_bucket.pipeline_bucket.arn}/*"
+#             "Resource": "*"
 #         }
 #     ]
 # }
