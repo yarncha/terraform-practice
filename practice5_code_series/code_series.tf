@@ -56,10 +56,10 @@ resource "aws_codepipeline" "aws_codepipeline" {
     location = aws_s3_bucket.pipeline_bucket.id
     type     = var.pipeline_artifact_type
 
-    encryption_key {
-      id   = var.pipeline_encryption_key
-      type = var.pipeline_encryption_type
-    }
+    # encryption_key {
+    #   id   = var.pipeline_encryption_key
+    #   type = var.pipeline_encryption_type
+    # }
   }
 
   stage {
