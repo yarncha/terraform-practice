@@ -178,9 +178,6 @@ variable "pipeline_name" {
 variable "pipeline_artifact_type" {
   type = string
 }
-variable "pipeline_encryption_key" {
-  type = string
-}
 variable "pipeline_encryption_type" {
   type = string
 }

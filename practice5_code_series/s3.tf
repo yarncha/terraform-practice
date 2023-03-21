@@ -1,6 +1,7 @@
 # pipeline s3
 resource "aws_s3_bucket" "pipeline_bucket" {
   bucket = var.s3_name
+  force_delete = true
 
   tags = {
     bucket = var.s3_name
