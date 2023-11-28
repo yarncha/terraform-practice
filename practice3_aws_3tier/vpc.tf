@@ -105,7 +105,7 @@ resource "aws_internet_gateway" "vpc_igw" {
 
 ### [Elastic IP] ###
 resource "aws_eip" "nat_a" {
-  vpc        = true
+  domain                    = "vpc"
   depends_on = [aws_internet_gateway.vpc_igw]
 
   tags = {
